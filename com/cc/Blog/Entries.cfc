@@ -36,7 +36,7 @@ component {
 	 *	@returnType query
 	 *	@output false
 	 */
-	function GetAllStandard(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "") {
+	remote function GetAllStandard(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "") {
 		var LOCAL.tmp = GetEntries(argumentCollection: ARGUMENTS);
 		var LOCAL['retVal'] = QueryNew('id,title,posted,views');
 		if (LOCAL.tmp.success) {
@@ -56,7 +56,7 @@ component {
 	 *	@returnType struct
 	 *	@output false
 	 */
-	function getAllQCFG(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "") {
+	remote function getAllQCFG(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "") {
 		ARGUMENTS.limit = false;
 		var LOCAL.tmp = GetEntries(argumentCollection: ARGUMENTS);
 		var LOCAL['retVal'] = QueryNew('id,title,posted,views');
@@ -77,7 +77,7 @@ component {
 	 *	@returnType struct
 	 *	@output false
 	 */
-	function getAllInStruct(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "") {
+	remote function getAllInStruct(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "") {
 		return GetEntries(argumentCollection: ARGUMENTS);
 	}
 
@@ -92,7 +92,7 @@ component {
 	 *	@returnType struct
 	 *	@output false
 	 */
-	function getWithMeta(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "") {
+	remote function getWithMeta(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "") {
 		var retVal = {"success" = true, "pageIndex" = ARGUMENTS.pageIndex, "pageCount" = 0, "recordCount" = 0, "message" = "", "getEntries" = "", "metaData" = {"root" = "getEntries", "totalProperty" = "recordCount", "successProperty" = "success", "messageProperty" = "message", "idProperty" = "id", "fields" = []}};
 		StructAppend(LOCAL.retVal, GetEntries(argumentCollection: ARGUMENTS), true);
 		var colArr = ListToArray(LOCAL.retVal.getEntries.columnList);
@@ -114,7 +114,7 @@ component {
 	 *	@returnType struct
 	 *	@output false
 	 */
-	function GetEntries(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "", boolean limit = true) {
+	remote function GetEntries(numeric pageIndex = 1, numeric pageSize = 50, string sort = "", string search = "", boolean limit = true) {
 		var LOCAL.retVal = {"success" = true, "pageIndex" = ARGUMENTS.pageIndex, "pageCount" = 0, "recordCount" = 0, "message" = "", "getEntries" = ""};
 		var LOCAL.orderby = "posted DESC";
 		if(Len(ARGUMENTS.sort) AND IsJSON(ARGUMENTS.sort)){
@@ -209,7 +209,7 @@ component {
 	 *	@returnType struct
 	 *	@output false
 	 */
-	function GetGroupedEntries(numeric pageIndex = 1, numeric pageSize = 50, string sortCol = "ID", string sortDir = "desc", string search = "") {
+	remote function GetGroupedEntries(numeric pageIndex = 1, numeric pageSize = 50, string sortCol = "ID", string sortDir = "desc", string search = "") {
 		var LOCAL.retVal = {"success" = true, "pageIndex" = ARGUMENTS.pageIndex, "pageCount" = 0, "recordCount" = 0, "message" = "", "data" = ""};
 		var LOCAL.scArr = ListToArray(ARGUMENTS.sortCol);
 		var LOCAL.sortCol = (ArrayLen(LOCAL.scArr) eq 2) ? LOCAL.scArr[2] : ARGUMENTS.sortCol;
@@ -297,7 +297,7 @@ component {
 	 *	@returnType struct
 	 *	@output false
 	 */
-	function deleteEntry(required string recId){
+	remote function deleteEntry(required string recId){
 		var LOCAL.retVal = {"success" = true, "message" = "", "data" = ""};
 
 		// BEST PRACTICE: You'll want to verify that the user has the right to do this. Normally, that would go here.
